@@ -4,6 +4,14 @@ body{
   	-ms-user-select: none; /* IE 10 and IE 11 */
   	user-select: none; /* Standard syntax */
 
+  	font-family: 'Alegreya-Regular';
+  	font-size: 20px;
+
+}
+
+@font-face {
+	font-family: "Alegreya-Regular";
+	src: url("../ext/Alegreya-Regular.ttf");
 }
 
 .font-weight-bold{
@@ -29,4 +37,14 @@ body{
 
 .error-text{
 	color: red;
+}
+
+.question-with-options{
+	margin: 30px;
+}
+
+.option{
+
+	margin-top: 15px;
+	margin-left: 10px;
 }

@@ -38,6 +38,8 @@
 
 				<div
 
+					class = "question-with-options"
+
 					ng-init = "questionIndex = $index"
 
 					ng-repeat = "qa in vmQC.Questions_with_Options"
@@ -48,7 +50,7 @@
 						ng-class = "{'correct-option': qa.userPickedOption_correct, 'incorrect-option': qa.userPickedOption_incorrect, 'incomplete-question': qa.userPickedOption_incomplete, 'ignored-question': qa.type === 'checkbox' && vmQC.userSelectedOptions[questionIndex].length > qa.selecteRequired_count}"
 
 					>
-						<span>{{qa.question}}</span>
+						<span>{{questionIndex+1}}. {{qa.question}}</span>
 						<span class = "font-weight-bold">{{qa.selectRequired_text}}</span>
 
 					</label>
@@ -87,6 +89,8 @@
 
 						<div
 
+							class = "option"
+
 							ng-init = "optionIndex = $index"
 
 							ng-repeat = "option in qa.options track by $index"
@@ -124,6 +128,8 @@
 					>
 
 						<div
+
+							class = "option"
 
 							ng-init = "optionIndex = $index"
 
