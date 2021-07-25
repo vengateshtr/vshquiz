@@ -6,10 +6,27 @@ body{
 
 }
 
+.font-weight-bold{
+
+	font-weight: bold;
+}
+
 .correct-option{
 	color: green;
 }
 
 .incorrect-option{
+	color: red;
+}
+
+.ignored-question{
+	color: orange;
+}
+
+.incomplete-question{
+	color: brown;
+}
+
+.error-text{
 	color: red;
 }

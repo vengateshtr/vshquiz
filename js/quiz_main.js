@@ -31,6 +31,7 @@ function quiz_controller(
 
 		vmQC.Questions_with_Options = window['Questions_with_Options'];
 		vmQC.userSelectedOptions = {};
+		vmQC.correctOptionsPercentage = -1;
 
 		vmQC.Callbacks = {};
 		vmQC.Callbacks.onTickRadioButton = onTickRadioButton;
@@ -39,6 +40,9 @@ function quiz_controller(
 
 		vmQC.Questions_with_Options.forEach(
 			function(questionItem, questionIndex, questionArray){
+
+				var selectRequired_template = '[ Select {{REQUIRED}} ]',
+					selecteRequired_count;
 
 				if(
 					questionItem.type === 'radiobutton'
@@ -50,8 +54,28 @@ function quiz_controller(
 				else if(
 					questionItem.type === 'checkbox'
 				){
+					selecteRequired_count = 0;
 
 					questionArray[questionIndex].selectedOptions = {};
+
+					questionItem.options.forEach(
+						function(optionItem){
+
+							if(
+								optionItem.point > 0
+							){
+
+								selecteRequired_count++;
+
+							}
+
+						}
+					);
+
+					questionArray[questionIndex].selecteRequired_count = selecteRequired_count;
+
+					questionArray[questionIndex].selectRequired_text =
+						selectRequired_template.replace(/\{\{REQUIRED\}\}/, selecteRequired_count);
 
 				}
 
@@ -90,6 +114,8 @@ function quiz_controller(
 						}
 						else{
 							questionArray[questionIndex].options[userSelectedOptions[0]].userPickedOption_incorrect = true;
+
+							questionArray[questionIndex].userPickedOption_incorrect = true;
 						}
 
 
@@ -106,40 +132,62 @@ function quiz_controller(
 
 					userSelectedOptions = vmQC.userSelectedOptions[questionIndex] || [];
 
+						/*
+							assume, for the question, it require 2 options
 
-					questionItem.options.forEach(
-						function(QOItem, QOIndex, QOArray){
+								so, if user picked only ONE or more-than-TWO, will ignore considering user-selected-options itself
+						*/
+					if(
+						userSelectedOptions.length > 0
+					){
 
-							checkBoxQuestionAllPoints += QOItem.point;
+						if(
+							userSelectedOptions.length === questionItem.selecteRequired_count
+						){
 
-					});
+								// thus, user-selected required options as per question
 
-					userSelectedOptions.forEach(
-						function(USOItem, USOIndex, USOArray){
+							questionItem.options.forEach(
+								function(QOItem, QOIndex, QOArray){
 
-							optionPoint = questionItem.options[USOItem].point;
+									checkBoxQuestionAllPoints += QOItem.point;
 
+							});
+
+							userSelectedOptions.forEach(
+								function(USOItem, USOIndex, USOArray){
+
+									optionPoint = questionItem.options[USOItem].point;
+
+									if(
+										optionPoint > 0
+									){
+
+										questionArray[questionIndex].options[USOItem].userPickedOption_correct = true;
+
+									}
+									else{
+										questionArray[questionIndex].options[USOItem].userPickedOption_incorrect = true;
+									}
+
+									checkBoxQuestionUserPoints += optionPoint;
+
+								}
+							);
+
+								// AND condition -> only if all options are selected, given mark. Otherwise, ZERO only
 							if(
-								optionPoint > 0
+								checkBoxQuestionAllPoints === checkBoxQuestionUserPoints
 							){
-
-								questionArray[questionIndex].options[USOItem].userPickedOption_correct = true;
-
+								totalPoints += 1;
 							}
 							else{
-								questionArray[questionIndex].options[USOItem].userPickedOption_incorrect = true;
+								questionArray[questionIndex].userPickedOption_incorrect = true;
 							}
-
-							checkBoxQuestionUserPoints += optionPoint;
-
 						}
-					);
-
-						// AND condition -> only if all options are selected, given mark. Otherwise, ZERO only
-					if(
-						checkBoxQuestionAllPoints === checkBoxQuestionUserPoints
-					){
-						totalPoints += 1;
+						else{
+							questionArray[questionIndex].userPickedOption_incomplete = true;
+						}
 					}
 
 				}
@@ -147,7 +195,7 @@ function quiz_controller(
 			}
 		);
 
-
+		vmQC.correctOptionsPercentage = (totalPoints/vmQC.Questions_with_Options.length) * 100;
 
 	}
 

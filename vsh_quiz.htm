@@ -18,7 +18,19 @@
 
 	<body ng-app = "vsh-quiz" ng-controller="quiz-controller as vmQC">
 
-		<section>Header</section>
+		<section>
+			<label>Header<label>
+
+			<label
+
+				ng-if = "vmQC.correctOptionsPercentage !== -1"
+			>
+				<span>User score :</span>
+				<span>{{vmQC.correctOptionsPercentage}}%</span>
+
+			</label>
+
+		</section>
 
 		<section>
 
@@ -31,7 +43,43 @@
 					ng-repeat = "qa in vmQC.Questions_with_Options"
 
 				>
-					<label>{{qa.question}}</label>
+					<label
+
+						ng-class = "{'correct-option': qa.userPickedOption_correct, 'incorrect-option': qa.userPickedOption_incorrect, 'incomplete-question': qa.userPickedOption_incomplete, 'ignored-question': qa.type === 'checkbox' && vmQC.userSelectedOptions[questionIndex].length > qa.selecteRequired_count}"
+
+					>
+						<span>{{qa.question}}</span>
+						<span class = "font-weight-bold">{{qa.selectRequired_text}}</span>
+
+					</label>
+
+					<div
+
+						class = "error-text"
+
+						ng-if = "qa.type === 'checkbox' && vmQC.userSelectedOptions[questionIndex].length > qa.selecteRequired_count"
+					>
+
+						<label>
+
+							<span>Selected Additional option/s : </span>
+
+							<span>{{vmQC.userSelectedOptions[questionIndex].length - qa.selecteRequired_count}}</span>
+
+						</label>
+
+					</div>
+
+					<div
+
+						class = "error-text"
+
+						ng-if = "qa.userPickedOption_incomplete"
+					>
+
+						<label>IGNORED. User selected only {{vmQC.userSelectedOptions[questionIndex].length}}. But, expected {{qa.selecteRequired_count}}</label>
+
+					</div>
 
 					<div
 						ng-if = "qa.type === 'radiobutton'"
