@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<title>vsh quiz</title>
+
+		<link rel="stylesheet" href="styles/quiz.css"></link>
+
+		<script src="ext/jquery.min.js"></script>
+		<script src="ext/angular.min.js"></script>
+
+		<script src="js/q_a.js"></script>
+		<script src="js/quiz_main.js"></script>
+
+	</head>
+
+	<body ng-app = "vsh-quiz" ng-controller="quiz-controller as vmQC">
+
+		<section>Header</section>
+
+		<section>
+
+			<div id= "quiz-holder">
+
+				<div
+
+					ng-init = "questionIndex = $index"
+
+					ng-repeat = "qa in vmQC.Question_Answers"
+
+				>
+					<label>{{qa.question}}</label>
+
+					<div
+						ng-if = "qa.answers.length === 1"
+					>
+
+						<div
+
+							ng-init = "optionsIndex = $index"
+
+							ng-repeat = "option in qa.options track by $index"
+						>
+
+							<input
+
+								type = "radio"
+
+								id = "{{questionIndex + '_' + optionsIndex}}"
+
+								name = "{{questionIndex}}"
+
+								value = "{{option}}"
+
+								ng-model = "vmQC.Question_Answers[questionIndex].selectedOptions"
+							>
+
+							<label for = "{{questionIndex + '_' + optionsIndex}}">{{option}}</label>
+
+						</div>
+
+					</div>
+
+					<div
+						ng-if = "qa.answers.length > 1"
+					>
+
+						<div
+
+							ng-init = "optionsIndex = $index"
+
+							ng-repeat = "option in qa.options track by $index"
+						>
+
+							<input
+
+								type = "checkbox"
+
+								id = "{{questionIndex + '_' + optionsIndex}}"
+
+								value = "{{option}}"
+
+								name = "{{questionIndex + '_' + optionsIndex}}"
+
+								ng-model = "vmQC.Question_Answers[questionIndex].selectedOptions"
+
+							>
+
+							<label for = "{{questionIndex + '_' + optionsIndex}}">{{option}}</label>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<input type="button" ng-click="vmQC.Callbacks.verifyAnswers();" value = "submit" />
+
+			</div>
+
+
+
+
+		</section>
+
+		<section>Footer</section>
+
+	</body>
+</html>
+
