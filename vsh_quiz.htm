@@ -28,18 +28,18 @@
 
 					ng-init = "questionIndex = $index"
 
-					ng-repeat = "qa in vmQC.Question_Answers"
+					ng-repeat = "qa in vmQC.Questions_with_Options"
 
 				>
 					<label>{{qa.question}}</label>
 
 					<div
-						ng-if = "qa.answers.length === 1"
+						ng-if = "qa.type === 'radiobutton'"
 					>
 
 						<div
 
-							ng-init = "optionsIndex = $index"
+							ng-init = "optionIndex = $index"
 
 							ng-repeat = "option in qa.options track by $index"
 						>
@@ -48,28 +48,36 @@
 
 								type = "radio"
 
-								id = "{{questionIndex + '_' + optionsIndex}}"
+								id = "{{questionIndex + '_' + optionIndex}}"
 
 								name = "{{questionIndex}}"
 
-								value = "{{option}}"
+								value = "{{option.label}}"
 
-								ng-model = "vmQC.Question_Answers[questionIndex].selectedOptions"
+								ng-model = "vmQC.Questions_with_Options[questionIndex].selectedOptions"
+
+								ng-click = "vmQC.Callbacks.onTickRadioButton(questionIndex, optionIndex);"
 							>
 
-							<label for = "{{questionIndex + '_' + optionsIndex}}">{{option}}</label>
+							<label
+
+								for = "{{questionIndex + '_' + optionIndex}}"
+
+								ng-class = "{'correct-option': option.userPickedOption_correct, 'incorrect-option': option.userPickedOption_incorrect}"
+
+							>{{option.label}}</label>
 
 						</div>
 
 					</div>
 
 					<div
-						ng-if = "qa.answers.length > 1"
+						ng-if = "qa.type === 'checkbox'"
 					>
 
 						<div
 
-							ng-init = "optionsIndex = $index"
+							ng-init = "optionIndex = $index"
 
 							ng-repeat = "option in qa.options track by $index"
 						>
@@ -78,17 +86,25 @@
 
 								type = "checkbox"
 
-								id = "{{questionIndex + '_' + optionsIndex}}"
+								id = "{{questionIndex + '_' + optionIndex}}"
 
-								value = "{{option}}"
+								value = "{{option.label}}"
 
-								name = "{{questionIndex + '_' + optionsIndex}}"
+								name = "{{questionIndex + '_' + optionIndex}}"
 
-								ng-model = "vmQC.Question_Answers[questionIndex].selectedOptions"
+								ng-model = "vmQC.Questions_with_Options[questionIndex].selectedOptions[optionIndex]"
+
+								ng-click = "vmQC.Callbacks.onTickCheckBox(questionIndex, optionIndex, this);"
 
 							>
 
-							<label for = "{{questionIndex + '_' + optionsIndex}}">{{option}}</label>
+							<label
+
+								for = "{{questionIndex + '_' + optionIndex}}"
+
+								ng-class = "{'correct-option': option.userPickedOption_correct, 'incorrect-option': option.userPickedOption_incorrect}"
+
+							>{{option.label}}</label>
 
 						</div>
 
@@ -96,7 +112,7 @@
 
 				</div>
 
-				<input type="button" ng-click="vmQC.Callbacks.verifyAnswers();" value = "submit" />
+				<input type="button" ng-click="vmQC.Callbacks.verifyOptions();" value = "submit" />
 
 			</div>
 

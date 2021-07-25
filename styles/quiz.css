@@ -5,3 +5,11 @@ body{
   	user-select: none; /* Standard syntax */
 
 }
+
+.correct-option{
+	color: green;
+}
+
+.incorrect-option{
+	color: red;
+}
