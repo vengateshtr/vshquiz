@@ -44,6 +44,8 @@
 
 					ng-repeat = "qa in vmQC.Questions_with_Options"
 
+					ng-show = "vmQC.userView_question === $index"
+
 				>
 					<label
 
@@ -166,16 +168,51 @@
 
 				</div>
 
-				<input type="button" ng-click="vmQC.Callbacks.verifyOptions();" value = "submit" />
+				<input
+
+					type = "button"
+
+					class = "float-left"
+
+					ng-click="vmQC.Callbacks.goPrevious();"
+
+					ng-if = "vmQC.userView_question !== 0"
+
+					value = "previous"
+				/>
+
+				<input
+
+					type="button"
+
+					class = "float-left"
+
+					ng-click="vmQC.Callbacks.verifyOptions();"
+
+					ng-if = "vmQC.WINObjKeys(vmQC.userSelectedOptions).length === vmQC.Questions_with_Options.length"
+
+					value = "submit"
+				/>
+
+				<input
+
+					type="button"
+
+					class = "float-right"
+
+					ng-click="vmQC.Callbacks.goNext();"
+
+					ng-if = "(vmQC.userView_question + 1) !== vmQC.Questions_with_Options.length"
+
+					value = "next"
+				/>
 
 			</div>
 
 
-
-
 		</section>
 
-		<section>Footer</section>
+		<section>Footer </section>
 
 	</body>
 </html>

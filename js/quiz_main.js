@@ -33,7 +33,15 @@ function quiz_controller(
 		vmQC.userSelectedOptions = {};
 		vmQC.correctOptionsPercentage = -1;
 
+		vmQC.userView_question = 0;
+
+		vmQC.WINObjKeys = Object.keys;
+
 		vmQC.Callbacks = {};
+
+		vmQC.Callbacks.goPrevious = goPrevious;
+		vmQC.Callbacks.goNext = goNext;
+
 		vmQC.Callbacks.onTickRadioButton = onTickRadioButton;
 		vmQC.Callbacks.onTickCheckBox = onTickCheckBox;
 		vmQC.Callbacks.verifyOptions = verifyOptions;
@@ -81,6 +89,17 @@ function quiz_controller(
 
 			}
 		);
+
+	}
+
+	function goPrevious(){
+
+		vmQC.userView_question--;
+	}
+
+	function goNext(){
+
+		vmQC.userView_question++;
 
 	}
 
@@ -201,8 +220,6 @@ function quiz_controller(
 
 	function onTickRadioButton(questionIndex, optionIndex){
 
-		vmQC.userSelectedOptions = vmQC.userSelectedOptions || {};
-
 		vmQC.userSelectedOptions[questionIndex] = [
 			optionIndex.toString()
 		];
@@ -213,8 +230,6 @@ function quiz_controller(
 
 		var unselectedOptionIndex;
 
-		vmQC.userSelectedOptions = vmQC.userSelectedOptions || {};
-
 		vmQC.userSelectedOptions[questionIndex] = vmQC.userSelectedOptions[questionIndex] || [];
 
 		if(
@@ -224,6 +239,12 @@ function quiz_controller(
 			unselectedOptionIndex = vmQC.userSelectedOptions[questionIndex].indexOf(optionIndex.toString());
 
 			vmQC.userSelectedOptions[questionIndex].splice(unselectedOptionIndex, 1);
+
+			if(
+				vmQC.userSelectedOptions[questionIndex].length === 0
+			){
+				delete vmQC.userSelectedOptions[questionIndex];
+			}
 		}
 		else{
 			vmQC.userSelectedOptions[questionIndex].push(optionIndex.toString());

@@ -19,6 +19,14 @@ body{
 	font-weight: bold;
 }
 
+.float-left{
+	float: left
+}
+
+.float-right{
+	float: right;
+}
+
 .correct-option{
 	color: green;
 }
