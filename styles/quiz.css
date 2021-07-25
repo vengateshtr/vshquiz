@@ -1,3 +1,14 @@
+@font-face {
+	font-family: "Alegreya-Regular";
+	src: url("../ext/Alegreya-Regular.ttf");
+}
+
+.font-weight-bold{
+
+	font-weight: bold;
+}
+
+
 body{
 
 	-webkit-user-select: none; /* Safari */
@@ -9,22 +20,16 @@ body{
 
 }
 
-@font-face {
-	font-family: "Alegreya-Regular";
-	src: url("../ext/Alegreya-Regular.ttf");
+button{
+	margin-left: 5px;
 }
 
-.font-weight-bold{
-
-	font-weight: bold;
+button:disabled, button.disabled{
+	background-color: #6c757d !important;
 }
 
-.float-left{
-	float: left
-}
-
-.float-right{
-	float: right;
+.quiz-holder{
+	font-size: 20px;
 }
 
 .correct-option{
@@ -53,6 +58,6 @@ body{
 
 .option{
 
-	margin-top: 15px;
+	margin-top: 10px;
 	margin-left: 10px;
 }

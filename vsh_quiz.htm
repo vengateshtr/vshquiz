@@ -6,6 +6,11 @@
 
 		<title>vsh quiz</title>
 
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+		<link rel="stylesheet" href="ext/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="styles/quiz.css"></link>
 
 		<script src="ext/jquery.min.js"></script>
@@ -34,7 +39,7 @@
 
 		<section>
 
-			<div id= "quiz-holder">
+			<div class = "quiz-holder">
 
 				<div
 
@@ -168,51 +173,48 @@
 
 				</div>
 
-				<input
+				<button
 
 					type = "button"
 
-					class = "float-left"
+					class = "float-left btn btn-primary"
 
 					ng-click="vmQC.Callbacks.goPrevious();"
 
-					ng-if = "vmQC.userView_question !== 0"
+					ng-disabled = "vmQC.userView_question === 0"
 
-					value = "previous"
-				/>
+				>Previous</button>
 
-				<input
+				<button
 
 					type="button"
 
-					class = "float-left"
+					class = "float-left btn btn-success"
 
 					ng-click="vmQC.Callbacks.verifyOptions();"
 
-					ng-if = "vmQC.WINObjKeys(vmQC.userSelectedOptions).length === vmQC.Questions_with_Options.length"
+					ng-disabled = "vmQC.WINObjKeys(vmQC.userSelectedOptions).length !== vmQC.Questions_with_Options.length"
 
-					value = "submit"
-				/>
+				>Submit</button>
 
-				<input
+				<button
 
 					type="button"
 
-					class = "float-right"
+					class = "float-left btn btn-primary"
 
 					ng-click="vmQC.Callbacks.goNext();"
 
-					ng-if = "(vmQC.userView_question + 1) !== vmQC.Questions_with_Options.length"
+					ng-disabled = "(vmQC.userView_question + 1) === vmQC.Questions_with_Options.length"
 
-					value = "next"
-				/>
+				>Next</button>
 
 			</div>
 
 
 		</section>
 
-		<section>Footer </section>
+		<section class = "hidden-lg">Footer</section>
 
 	</body>
 </html>
